@@ -41,3 +41,14 @@ input, button {
   width: 30%;
   min-width: 140px;
 }
+
+#currentLocation {
+  position: absolute;
+  bottom: 20px; /* gives space above swipe bar */
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+  color: gray;
+  z-index: 10;
+}
