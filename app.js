@@ -11,7 +11,7 @@ canvas.height = window.innerHeight;
 function drawArrow(angle, color) {
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate((angle - northOffset) * Math.PI / 180);
+  ctx.rotate((angle - (heading - northOffset - 90)) * Math.PI / 180);
   ctx.beginPath();
   ctx.moveTo(0, -60);  // tip of arrow
   ctx.lineTo(20, 20);
