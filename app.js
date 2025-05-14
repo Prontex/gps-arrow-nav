@@ -1,4 +1,3 @@
-
 let target = null;
 let heading = 0;
 let currentPos = null;
@@ -45,6 +44,7 @@ function setTarget() {
   const lon = parseFloat(document.getElementById('lon').value);
   if (!isNaN(lat) && !isNaN(lon)) {
     target = { lat, lon };
+    requestOrientationPermission();
   }
 }
 
@@ -65,9 +65,30 @@ navigator.geolocation.watchPosition(pos => {
   currentPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
 }, console.error, { enableHighAccuracy: true });
 
-window.addEventListener('deviceorientation', e => {
-  heading = e.alpha || 0;
-}, true);
+function requestOrientationPermission() {
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission()
+      .then(response => {
+        if (response === 'granted') {
+          window.addEventListener('deviceorientation', handleOrientation, true);
+        } else {
+          alert("Compass access denied. Cannot orient.");
+        }
+      })
+      .catch(console.error);
+  } else {
+    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+    window.addEventListener('deviceorientation', handleOrientation, true);
+  }
+}
+
+function handleOrientation(event) {
+  if (event.webkitCompassHeading !== undefined) {
+    heading = event.webkitCompassHeading;
+  } else if (event.alpha !== null) {
+    heading = 360 - event.alpha; // fallback
+  }
+}
 
 function animate() {
   requestAnimationFrame(animate);
@@ -75,7 +96,7 @@ function animate() {
     const bearing = computeBearing(currentPos.lat, currentPos.lon, target.lat, target.lon);
     const distance = computeDistance(currentPos.lat, currentPos.lon, target.lat, target.lon);
     const relBearing = (bearing - heading + 360) % 360;
-    const hue = Math.max(120 - (distance / 2), 0); // Green to red
+    const hue = Math.max(0, Math.min(120, 120 * Math.max(0, 1 - distance / 1000)));
     drawArrow(relBearing, `hsl(${hue}, 100%, 50%)`);
     document.getElementById('distance').textContent = distance.toFixed(1);
   }
