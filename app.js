@@ -1,5 +1,6 @@
 let target = null;
 let heading = 0;
+let northOffset = 0;
 let currentPos = null;
 
 const canvas = document.getElementById('arrowCanvas');
@@ -11,7 +12,7 @@ function drawArrow(angle, color) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate((angle - 90) * Math.PI / 180);
+  ctx.rotate((angle - (heading - northOffset)) * Math.PI / 180);
   ctx.beginPath();
   ctx.moveTo(0, -60);  // tip of arrow
   ctx.lineTo(20, 20);
@@ -26,7 +27,7 @@ function drawArrow(angle, color) {
 function drawNorth() {
   ctx.save();
   ctx.translate(canvas.width - 30, 30);
-  ctx.rotate((-heading - 90) * Math.PI / 180);
+  ctx.rotate((-(heading - northOffset)) * Math.PI / 180);
   ctx.beginPath();
   ctx.moveTo(0, -10);
   ctx.lineTo(6, 6);
@@ -63,6 +64,10 @@ function setTarget() {
     target = { lat, lon };
     requestOrientationPermission();
   }
+}
+
+function calibrateNorth() {
+  northOffset = heading;
 }
 
 function toggleHint() {
