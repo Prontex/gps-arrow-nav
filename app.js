@@ -11,15 +11,32 @@ function drawArrow(angle, color) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate(angle * Math.PI / 180);
+  ctx.rotate((angle - 90) * Math.PI / 180);  // Fix orientation: arrow points UP
   ctx.beginPath();
-  ctx.moveTo(0, -60);
+  ctx.moveTo(0, -60);  // tip of arrow
   ctx.lineTo(20, 20);
   ctx.lineTo(0, 10);
   ctx.lineTo(-20, 20);
   ctx.closePath();
   ctx.fillStyle = color;
   ctx.fill();
+  ctx.restore();
+}
+
+function drawNorth() {
+  ctx.save();
+  ctx.translate(canvas.width - 30, 30);
+  ctx.rotate(-heading * Math.PI / 180);
+  ctx.beginPath();
+  ctx.moveTo(0, -10);
+  ctx.lineTo(6, 6);
+  ctx.lineTo(0, 2);
+  ctx.lineTo(-6, 6);
+  ctx.closePath();
+  ctx.fillStyle = 'white';
+  ctx.fill();
+  ctx.font = '10px sans-serif';
+  ctx.fillText("N", -3, 18);
   ctx.restore();
 }
 
@@ -63,6 +80,8 @@ function resetApp() {
 
 navigator.geolocation.watchPosition(pos => {
   currentPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+  const loc = document.getElementById('currentLocation');
+  loc.textContent = `Current: ${currentPos.lat.toFixed(6)}, ${currentPos.lon.toFixed(6)}`;
 }, console.error, { enableHighAccuracy: true });
 
 function requestOrientationPermission() {
@@ -86,7 +105,7 @@ function handleOrientation(event) {
   if (event.webkitCompassHeading !== undefined) {
     heading = event.webkitCompassHeading;
   } else if (event.alpha !== null) {
-    heading = 360 - event.alpha; // fallback
+    heading = 360 - event.alpha;
   }
 }
 
@@ -100,6 +119,7 @@ function animate() {
     drawArrow(relBearing, `hsl(${hue}, 100%, 50%)`);
     document.getElementById('distance').textContent = distance.toFixed(1);
   }
+  drawNorth();
 }
 
 animate();
