@@ -9,7 +9,6 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 function drawArrow(angle, color) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
   ctx.rotate((angle - (heading - northOffset)) * Math.PI / 180);
@@ -116,6 +115,7 @@ function handleOrientation(event) {
 
 function animate() {
   requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (target && currentPos) {
     const bearing = computeBearing(currentPos.lat, currentPos.lon, target.lat, target.lon);
     const distance = computeDistance(currentPos.lat, currentPos.lon, target.lat, target.lon);
