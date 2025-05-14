@@ -1,6 +1,6 @@
 let target = null;
 let heading = 0;
-let northOffset = 0;
+let northOffset = -90; // default offset
 let currentPos = null;
 
 const canvas = document.getElementById('arrowCanvas');
