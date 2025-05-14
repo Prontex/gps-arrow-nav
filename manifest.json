@@ -1,0 +1,14 @@
+
+{
+  "name": "GPS Arrow Nav",
+  "short_name": "GPSNav",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "description": "Offline GPS arrow navigation",
+  "icons": [{
+    "src": "icons/icon-192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
+}

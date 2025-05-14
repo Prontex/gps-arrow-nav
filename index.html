@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPS Arrow Nav</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="arrowCanvas"></canvas>
+    <div id="ui">
+      <div id="inputSection">
+        <input id="lat" placeholder="Target Latitude" type="number" step="any"/>
+        <input id="lon" placeholder="Target Longitude" type="number" step="any"/>
+        <button onclick="setTarget()">Set Target</button>
+      </div>
+      <div id="controls">
+        <button onclick="toggleHint()">Toggle Hint</button>
+        <button onclick="resetApp()">Reset</button>
+      </div>
+      <div id="hint" style="display:none;">Distance: <span id="distance"></span> m</div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

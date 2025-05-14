@@ -1,0 +1,30 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  overflow: hidden;
+  font-family: sans-serif;
+  color: white;
+}
+
+#arrowCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#ui {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+input, button {
+  margin: 4px;
+  font-size: 16px;
+}
